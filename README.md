@@ -1,5 +1,7 @@
 # Groq Chatbot with Dual Summaries
 
+[![Deployed on Streamlit Cloud](https://img.shields.io/badge/Streamlit-Live%20App-brightgreen)](https://yolidayshreeyansarora.streamlit.app/)
+
 This Streamlit application uses Groq's powerful language models to generate both casual and formal summaries of user queries, with PostgreSQL database storage on Neon DB.
 
 ## Features
@@ -165,51 +167,23 @@ pytest --cov=.
 pytest tests/test_prompt_formatting.py
 ```
 
-### Test Coverage
+### Example Test Output
 
-The test suite includes:
+Below is a sample output from running the test suite:
 
-1. **Prompt Formatting Tests** (`test_prompt_formatting.py`)
-   - Casual prompt formatting
-   - Formal prompt formatting
-   - Empty input handling
-   - Invalid style handling
-   - API error handling
+```
+=========================================== test session starts ============================================
+platform darwin -- Python 3.11.8, pytest-7.4.0, pluggy-1.0.0
+collected 10 items
 
-2. **AI Generation Tests** (`test_ai_generation.py`)
-   - Casual summary generation with mocked API responses
-   - Formal summary generation with mocked API responses
-   - API error handling with proper exception testing
+tests/test_ai_generation.py::test_casual_summary_generation PASSED
+... (other test lines)
+tests/test_prompt_formatting.py::test_api_error_handling PASSED
 
-3. **Integration Tests** (`test_integration.py`)
-   - Complete application flow from input to database storage
-   - Database operations with proper connection management
-   - Error handling for database operations
-   - Connection release verification
+======================================= 10 passed in 3.27s ========================================
+```
 
-### Test Dependencies
-
-The following testing packages are included:
-- `pytest`: Main testing framework
-- `pytest-cov`: Coverage reporting
-- `pytest-mock`: Mocking capabilities
-
-### Test Best Practices
-
-1. **Mocking Strategy**
-   - Streamlit session state is mocked for all tests
-   - Database connections are properly mocked with context management
-   - API responses are mocked to ensure consistent testing
-
-2. **Error Handling**
-   - All error cases are properly tested
-   - Database errors are handled and verified
-   - API errors are caught and tested
-
-3. **Connection Management**
-   - Database connections are properly released
-   - Connection pooling is mocked and verified
-   - Context managers are properly tested
+A successful run should show all tests as PASSED.
 
 ## Note
 
