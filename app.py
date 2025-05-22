@@ -22,7 +22,7 @@ init_db()
 # Initialize Groq client
 if 'client' not in st.session_state:
     try:
-        st.session_state.client = Groq(api_key=st.secrets["groq_api_key"])
+        st.session_state.client = Groq(api_key=st.secrets["groq_api_key"]["groq_api_key"])
     except Exception as e:
         st.error("Please set your GROQ_API_KEY in the Streamlit secrets")
         st.stop()
