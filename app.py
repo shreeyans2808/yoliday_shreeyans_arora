@@ -66,6 +66,12 @@ def get_recent_summaries(user_id, limit=5):
         release_db_connection(conn)
 
 def generate_summaries(text, style):
+    if not text:
+        raise ValueError("Empty input")
+        
+    if style not in ["casual", "formal"]:
+        raise ValueError("Invalid style")
+
     try:
         if style == "casual":
             prompt = f"""Please provide a casual, friendly summary of the following text. 
@@ -93,7 +99,7 @@ def generate_summaries(text, style):
 
     except Exception as e:
         st.error(f"Error generating summary: {str(e)}")
-        return "Sorry, there was an error generating the summary."
+        raise  # Re-raise the exception for testing
 
 tab1, tab2 = st.tabs(["Generate Summaries", "Recent Summaries"])
 
