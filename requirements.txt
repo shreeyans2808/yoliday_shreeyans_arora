@@ -5,4 +5,8 @@ accelerate==0.27.2
 bitsandbytes==0.42.0
 sentencepiece==0.2.0
 psycopg2-binary==2.9.9
-python-dotenv==1.0.0 
+python-dotenv==1.0.0
+rich==13.7.0
+markdown-it-py==3.0.0
+mdurl==0.1.2
+pygments==2.19.1 
