@@ -4,4 +4,3 @@ groq
 pandas
 datetime
 psycopg2-binary
-os
