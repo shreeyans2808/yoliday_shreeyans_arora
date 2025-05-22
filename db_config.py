@@ -3,7 +3,6 @@ import streamlit as st
 import psycopg2
 from psycopg2 import pool
 
-# Database configuration from Streamlit secrets
 DB_CONFIG = {
     'host': st.secrets["postgres"]["host"],
     'database': st.secrets["postgres"]["database"],
@@ -12,7 +11,6 @@ DB_CONFIG = {
     'port': st.secrets["postgres"]["port"]
 }
 
-# Create a connection pool
 connection_pool = pool.SimpleConnectionPool(
     1,  # minconn
     10,  # maxconn
@@ -30,7 +28,6 @@ def init_db():
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
-            # Create users table
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS users (
                     user_id VARCHAR(50) PRIMARY KEY,
@@ -38,7 +35,6 @@ def init_db():
                 )
             """)
             
-            # Create summaries table with user_id foreign key
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS summaries (
                     id SERIAL PRIMARY KEY,

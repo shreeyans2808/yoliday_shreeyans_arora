@@ -6,20 +6,16 @@ from db_config import get_db_connection, release_db_connection, init_db, create_
 import pandas as pd
 from datetime import datetime
 
-# Load environment variables
 load_dotenv()
 
-# Set page config
 st.set_page_config(
     page_title="Groq Chatbot",
     page_icon="🤖",
     layout="wide"
 )
 
-# Initialize database
 init_db()
 
-# Initialize Groq client
 if 'client' not in st.session_state:
     try:
         st.session_state.client = Groq(api_key=st.secrets["groq_api_key"]["groq_api_key"])
@@ -27,13 +23,11 @@ if 'client' not in st.session_state:
         st.error("Please set your GROQ_API_KEY in the Streamlit secrets")
         st.stop()
 
-# Title and description
 st.title("🤖 Groq Chatbot with Dual Summaries")
 st.markdown("""
 Yoliday Task/ Assignment - Shreeyans Arora
 """)
 
-# Function to save summaries to database
 def save_to_db(user_id, original_text, casual_summary, formal_summary):
     conn = get_db_connection()
     try:
@@ -53,7 +47,6 @@ def save_to_db(user_id, original_text, casual_summary, formal_summary):
     finally:
         release_db_connection(conn)
 
-# Function to get recent summaries for a user
 def get_recent_summaries(user_id, limit=5):
     conn = get_db_connection()
     try:
@@ -72,7 +65,6 @@ def get_recent_summaries(user_id, limit=5):
     finally:
         release_db_connection(conn)
 
-# Function to generate summaries
 def generate_summaries(text, style):
     try:
         if style == "casual":
@@ -86,7 +78,6 @@ def generate_summaries(text, style):
             
             {text}"""
 
-        # Generate completion using Groq
         completion = st.session_state.client.chat.completions.create(
             model="meta-llama/llama-4-scout-17b-16e-instruct",
             messages=[
@@ -104,27 +95,21 @@ def generate_summaries(text, style):
         st.error(f"Error generating summary: {str(e)}")
         return "Sorry, there was an error generating the summary."
 
-# Create tabs for different sections
 tab1, tab2 = st.tabs(["Generate Summaries", "Recent Summaries"])
 
 with tab1:
-    # User ID input
     user_id = st.text_input("Enter your User ID:", key="user_id_input")
     
     if not user_id:
         st.warning("Please enter a User ID to continue.")
         st.stop()
     
-    # Create user if they don't exist
     create_user(user_id)
     
-    # Input area
     user_input = st.text_area("Enter your query:", height=150)
 
-    # Generate summaries when button is clicked
     if st.button("Generate Summaries"):
         if user_input:
-            # Create two columns for the summaries
             col1, col2 = st.columns(2)
             
             with col1:
@@ -139,7 +124,6 @@ with tab1:
                     formal_summary = generate_summaries(user_input, "formal")
                     st.write(formal_summary)
             
-            # Save to database
             if casual_summary and formal_summary:
                 summary_id = save_to_db(user_id, user_input, casual_summary, formal_summary)
                 if summary_id:
@@ -166,7 +150,6 @@ with tab2:
         else:
             st.info("No summaries found for this user.")
 
-# Add some styling
 st.markdown("""
 <style>
     .stTextArea textarea {
